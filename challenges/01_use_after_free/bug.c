@@ -120,7 +120,7 @@ static void screen_dispatch(Screen *s, int code) {
 static void screen_render(Screen *s) {
     for (int i = 0; i < s->count; i++) {
         Widget *w = s->items[i];
-        w->vtbl->render(w);      
+        w->vtbl->render(w);      //여기 문제
     }
 }
 
@@ -153,6 +153,7 @@ int main(void) {
     screen_add(&s, widget_new(&DIALOG_VT, 12, "Are you sure?"));  /* items[2] */
     screen_add(&s, widget_new(&BUTTON_VT, 13, "Cancel"));
 
+
     printf("frame 1:\n");
     screen_render(&s);
     screen_dispatch(&s, 1);
@@ -167,5 +168,7 @@ int main(void) {
 
     free(status);
     for (int i = 0; i < s.count; i++) free(s.items[i]);
+            printf("4\n");
+
     return 0;
 }
