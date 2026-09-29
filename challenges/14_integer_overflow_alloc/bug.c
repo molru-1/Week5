@@ -8,7 +8,7 @@ typedef struct
     int width;
     int height;
     int channels;
-    int nbytes;
+    size_t nbytes;
     unsigned char *px;
 } Image;
 
@@ -24,7 +24,8 @@ static Image *image_new(int width, int height, int channels)
     img->height = height;
     img->channels = channels;
 
-    img->nbytes = width * height * channels;
+    img->nbytes = (size_t)width * height * channels;
+    printf("%zu\n\n", img->nbytes);
     img->px = malloc((size_t)img->nbytes);
     if (!img->px)
     {
@@ -40,16 +41,15 @@ static void image_fill(Image *img, unsigned char value)
     size_t total = (size_t)img->width * (size_t)img->height * (size_t)img->channels;
     for (size_t i = 0; i < total; i++)
     {
-        img->px[i] = value; ///////////////////////////////
+        img->px[i] = (size_t)value; ///////////////////////////////
     }
 }
 
 int main(void)
 {
-    Image *img = image_new(65536, 65536, 4);
-    printf("allocated nbytes(int)=%d for %dx%d x%d\n",
+    Image *img = image_new(65536, 65536, 4); //17,179,869,184
+    printf("allocated nbytes(int)=%zu for %dx%d x%d\n",
            img->nbytes, img->width, img->height, img->channels);
-
     image_fill(img, 0xFF);
 
     printf("px[0]=%u\n", img->px[0]);
