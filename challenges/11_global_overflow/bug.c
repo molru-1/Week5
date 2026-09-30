@@ -37,9 +37,13 @@ int main(void) {
     for (int i = 0; i < 100000; i++) {
         char buf[32];
         snprintf(buf, sizeof buf, "%s-%d", words[i % nwords], i);
+        if(intern(buf) == NULL){
+            break;
+        }
         last = intern(buf);                 ////////
         total += (long)strlen(last);
     }
+
 
     printf("interned, last=%s total_len=%ld\n", last, total);
     return 0;
